@@ -80,8 +80,8 @@ execute "install PostGIS 2.x" do
       ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/shp2pgsql &&
       ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/pgsql2shp &&
       ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/raster2pgsql &&
-      curl -s https://raw.github.com/gist/c83798ee55a08b7a5de5/813a2ba7543697789d2b5af6fae2cabf547cef54/pg_hba.conf -o /etc/postgresql/9.1/main/pg_hba.conf &&
-      curl -s https://raw.github.com/gist/bdf5accb7b328f7f596a/0f3a969132150655c861e2ea22852fdd16eac02c/postgresql.conf -o /etc/postgresql/9.1/main/postgresql.conf &&
+      curl -s https://gist.github.com/hunterowens/8692530/raw/d5218b31a4d55d43be97091d3d691b1185c89603/pg_hba.conf -o /etc/postgresql/9.1/main/pg_hba.conf &&
+      curl -s https://gist.github.com/hunterowens/8692461/raw/9fa892218ae3137b504f4e418e0524eb530f7b51/postgresql.conf -o /etc/postgresql/9.1/main/postgresql.conf &&
       /etc/init.d/postgresql restart &&
       echo "CREATE ROLE vagrant LOGIN;"                  | psql -U postgres &&
       echo "CREATE DATABASE vagrant;"                    | psql -U postgres &&
