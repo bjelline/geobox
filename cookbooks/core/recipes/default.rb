@@ -297,3 +297,10 @@ execute "install imposm" do
   EOS
   user 'root'
 end
+
+# POSTGIS
+
+node.override['locale']['lang'] = 'en_AU.UTF-8'
+include_recipe 'locale::default'
+
+include_recipe 'postgis::default'
