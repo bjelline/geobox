@@ -64,40 +64,6 @@ execute "apt-get update" do
   user "root"
 end
 
-execute "install PostGIS 2.x" do
-  command <<-EOS
-    if [ ! -d /usr/local/src/postgis-2.0.1 ]
-    then
-      cd /usr/local/src &&
-      wget http://postgis.org/download/postgis-2.0.1.tar.gz &&
-      tar xfvz postgis-2.0.1.tar.gz &&
-      cd postgis-2.0.1 &&
-      ./configure &&
-      make &&
-      make install &&
-      ldconfig &&
-      make comments-install &&
-      ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/shp2pgsql &&
-      ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/pgsql2shp &&
-      ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/raster2pgsql &&
-      curl -s https://gist.github.com/hunterowens/8692530/raw/d5218b31a4d55d43be97091d3d691b1185c89603/pg_hba.conf -o /etc/postgresql/9.1/main/pg_hba.conf &&
-      curl -s https://gist.github.com/hunterowens/8692461/raw/9fa892218ae3137b504f4e418e0524eb530f7b51/postgresql.conf -o /etc/postgresql/9.1/main/postgresql.conf &&
-      /etc/init.d/postgresql restart &&
-      echo "CREATE ROLE vagrant LOGIN;"                  | psql -U postgres &&
-      echo "CREATE DATABASE vagrant;"                    | psql -U postgres &&
-      echo "ALTER USER vagrant SUPERUSER;"               | psql -U postgres &&
-      echo "ALTER USER vagrant WITH PASSWORD 'vagrant';" | psql -U postgres &&
-      echo "CREATE DATABASE template_postgis;"           | psql -U postgres &&
-      echo "CREATE EXTENSION postgis;"                   | psql -U postgres -d template_postgis &&
-      echo "CREATE EXTENSION postgis_topology;"          | psql -U postgres -d template_postgis &&
-      echo "GRANT ALL ON geometry_columns TO PUBLIC;"    | psql -U postgres -d template_postgis &&
-      echo "GRANT ALL ON spatial_ref_sys TO PUBLIC;"     | psql -U postgres -d template_postgis
-    fi
-  EOS
-  action :run
-  user 'root'
-end
-
 ENV['PATH'] = "/home/#{node[:user]}/local:#{ENV['PATH']}"
 
 execute "set shell to zsh" do
